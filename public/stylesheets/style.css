@@ -1,0 +1,17 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.background_orange{
+  background-color: orange;
+}
+
+.background_blue{
+  background-color: lightgrey;
+  color: black;
+
+}
+
+a {
+  color: #00B7FF;
+}
