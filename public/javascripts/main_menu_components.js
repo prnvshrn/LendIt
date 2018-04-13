@@ -13,6 +13,7 @@ var microwave_icon = '/images/microwave.png';
 var phone_icon = '/images/phone-icon.png';
 var furniture_icon = '/images/furniture.png';
 var miscellaneous_icon = '/images/box-icon.png';
+var BackgroundNone = {background:'None', color:'black'};
 
 if(clicked)
 {
@@ -37,42 +38,47 @@ var Test = React.createClass({
             <div>
                 <div className="row">
                     <div className="col-sm-4">
-                        <div className="panel panel-default" style={greyBackground}>
+                        <div className="panel panel-default animated bounceInLeft" style={greyBackground}>
                         <img src={videogame_icon} style={imageWidth}/>
                         <h2>Video Games</h2>
-                        <button className="btn btn-info">Listings</button>
+                        <button className="btn btn-primary btn-lg" style={BackgroundNone}>Listings</button>
                         </div>
                     </div>
                     <div className="col-sm-4">
-                        <div className="panel panel-default" style={beigeBackground}>
+                        <div className="panel panel-default animated bounceInUp" style={beigeBackground}>
                             <img src={book_icon} style={imageWidth} />
                             <h2>Books</h2>
+                            <button className="btn btn-primary btn-lg" style={BackgroundNone}>Listings</button>
                         </div>
                     </div>
                     <div className="col-sm-4">
-                        <div className="panel panel-default" style={greyBackground}>
+                        <div className="panel panel-default animated bounceInRight" style={greyBackground}>
                             <img src={phone_icon} style={imageWidth} />
                             <h2>Electronic Gadgets</h2>
+                            <button className="btn btn-primary btn-lg" style={BackgroundNone}>Listings</button>
                         </div>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-sm-4">
-                        <div className="panel panel-default" style={beigeBackground}>
+                        <div className="panel panel-default animated bounceInLeft" style={beigeBackground}>
                             <img src={microwave_icon} style={imageWidth}/>
                             <h2>Home Applicances</h2>
+                            <button className="btn btn-primary btn-lg" style={BackgroundNone}>Listings</button>
                         </div>
                     </div>
                     <div className="col-sm-4">
-                        <div className="panel panel-default" style={greyBackground}>
+                        <div className="panel panel-default animated bounceInDown" style={greyBackground}>
                             <img src={furniture_icon} style={imageWidth} />
                             <h2>Furnitures</h2>
+                            <button className="btn btn-primary btn-lg" style={BackgroundNone}>Listings</button>
                         </div>
                     </div>
                     <div className="col-sm-4">
-                        <div className="panel panel-default" style={beigeBackground}>
+                        <div className="panel panel-default animated bounceInRight" style={beigeBackground}>
                             <img src={miscellaneous_icon} style={imageWidth} />
                             <h2>Miscellanous</h2>
+                            <button className="btn btn-primary btn-lg" style={BackgroundNone}>Listings</button>
                         </div>
                     </div>
                 </div>

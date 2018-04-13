@@ -7,8 +7,51 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-
+var mongo = require('mongodb').MongoClient;
+var assert = require('assert');
+var url = 'mongodb://admin2:admin2@ds237989.mlab.com:37989/lenditdb';
 var app = express();
+var tablename = 'lenditdb';
+
+//Configuring mongoDB
+mongo.connect(url, function(err, client) {
+    assert.equal(null, err);
+    console.log("Connected successfully to server");
+
+    const db = client.db(tablename);
+    findDocuments(db, function() {
+        client.close();
+    });
+});
+
+// Inserting Data into database
+const insertDocuments = function(db, callback) {
+    // Get the documents collection
+    const collection = db.collection('documents');
+    // Insert some documents
+    collection.insertMany([
+        {a : 1}, {a : 2}, {a : 3}
+    ], function(err, result) {
+        assert.equal(err, null);
+        assert.equal(3, result.result.n);
+        assert.equal(3, result.ops.length);
+        console.log("Inserted 3 documents into the collection");
+        callback(result);
+    });
+}
+
+// Retrieve Documents
+const findDocuments = function(db, callback) {
+    // Get the documents collection
+    const collection = db.collection('documents');
+    // Find some documents
+    collection.find({}).toArray(function(err, docs) {
+        assert.equal(err, null);
+        console.log("Found the following records");
+        console.log(docs)
+        callback(docs);
+    });
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,6 +67,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
