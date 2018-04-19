@@ -1,4 +1,4 @@
-var greyBackground = {backgroundColor:'#d3d3d3'}
+var greyBackground = {backgroundColor:'#ffefd2'}
 
 var HackPanels = React.createClass({
     render:function() {
@@ -37,7 +37,7 @@ var LendForm = React.createClass({
                         <div className="col-sm-6">
                             <div className="form-group">
                                 <label htmlFor="available">Available From:</label>
-                                <input type="text" className="form-control" id="available"/>
+                                <input type="text" className="form-control" name="available" id="available"/>
                             </div>
                         </div>
                     </div>
