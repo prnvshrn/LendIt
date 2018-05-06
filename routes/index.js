@@ -17,14 +17,65 @@ var LendSchema = new Schema({
     available: String,
     description: String
 });
+var UsersSchema = new Schema({
+    username: String,
+    password: String
+})
 
-
-var userName = 'Guest';
+router.get('/flash', function(req, res){
+    // Set a flash message by passing the key, followed by the value, to req.flash().
+    req.flash('info', 'Flash is back!')
+    res.redirect('/');
+});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log(req.session.user);
-  res.render('index', { title: 'Express', userName: userName });
+  if(req.session.user){console.log('Logged in');}
+  else{console.log('Quit');}
+  res.render('index', { title: 'Express', userName: req.session.user });
+});
+
+router.post('/',function(req, res, next){
+    if(req.body.LoginUsername) // Login
+    {
+        var UsersModel = mongoose.model('users', UsersSchema );
+        var password;
+        UsersModel.findOne({ 'username': req.body.LoginUsername })
+            .exec(function (err, users) {
+                if (err) return handleError(err);
+                //console.log('The password is %s', users.password);
+                if(users.password){console.log('Exists')}
+                else{console.log('Not Exists');}
+                // prints "The author is Bob Smith"
+            });
+        /*db.collection("users").findOne({'username': req.body.LoginUsername}, function(err, result) {
+            if (err)
+            {
+                console.log('here');
+            }
+            try{
+                //password = result.password;
+            }
+            catch(error){
+                console.log(error);
+                res.redirect('/');
+            }
+            db.close();
+        });*/
+
+        req.session.user = req.body.LoginUsername;
+    }
+    else // Sign Up
+    {
+        // Create entry in Users document
+        var UsersModel = mongoose.model('users', UsersSchema );
+        UsersModel.create({ username: req.body.SignUpUsername, password:req.body.SignUpPassword}
+        , function (err, small) {
+            if (err) console.log(err);
+        });
+        req.session.user = req.body.SignUpUsername;
+    }
+    res.render('index', { title: 'Express', userName: req.session.user });
 });
 
 router.post('/lend',function(req, res, next){
@@ -36,11 +87,11 @@ router.post('/lend',function(req, res, next){
                     description:lend_data.description, available:lend_data.available}, function (err, small) {
         if (err) console.log(err);
     });*/
-    res.render('lend', { title: 'Lend', userName: userName });
+    res.render('lend', { title: 'Lend', userName: req.session.user });
 });
 
 router.get('/lend', function(req, res, next) {
-    res.render('lend', { title: 'Lend', userName: userName  });
+    res.render('lend', { title: 'Lend', userName: req.session.user  });
 });
 
 

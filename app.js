@@ -27,6 +27,13 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/lend',index);
 
+//Messages
+app.use(require('connect-flash')());
+app.use(function (req, res, next) {
+    res.locals.messages = require('express-messages')(req, res);
+    next();
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
