@@ -32,50 +32,59 @@ router.get('/flash', function(req, res){
 router.get('/', function(req, res, next) {
   if(req.session.user){console.log('Logged in');}
   else{console.log('Quit');}
-  res.render('index', { title: 'Express', userName: req.session.user });
+  res.render('index', { title: 'Express', userName: req.session.user});
 });
 
 router.post('/',function(req, res, next){
     if(req.body.LoginUsername) // Login
     {
         var UsersModel = mongoose.model('users', UsersSchema );
-        var password;
-        UsersModel.findOne({ 'username': req.body.LoginUsername })
-            .exec(function (err, users) {
-                if (err) return handleError(err);
-                //console.log('The password is %s', users.password);
-                if(users.password){console.log('Exists')}
-                else{console.log('Not Exists');}
-                // prints "The author is Bob Smith"
-            });
-        /*db.collection("users").findOne({'username': req.body.LoginUsername}, function(err, result) {
-            if (err)
+        UsersModel.find({'username':req.body.LoginUsername})
+            .then(function (users) {
+                if(Object.keys(users).length == 0)
+                {
+                    res.render('index', { title: 'Express', userName: req.session.user, error: 'The username '+
+                        req.body.LoginUsername+' does not exists. Please sign up with it first.'});
+                }
+            for(var obj in users)
             {
-                console.log('here');
+                if(users[obj].password == req.body.LoginPassword)
+                {
+                    req.session.user = req.body.LoginUsername;
+                    res.render('index', { title: 'Express', userName: req.session.user});
+                }
+                else
+                {
+                    res.render('index', { title: 'Express', userName: req.session.user, error:'Username / Password is ' +
+                        'invalid. Please enter again' });
+                }
             }
-            try{
-                //password = result.password;
-            }
-            catch(error){
-                console.log(error);
-                res.redirect('/');
-            }
-            db.close();
-        });*/
-
-        req.session.user = req.body.LoginUsername;
+            });
     }
     else // Sign Up
     {
         // Create entry in Users document
         var UsersModel = mongoose.model('users', UsersSchema );
-        UsersModel.create({ username: req.body.SignUpUsername, password:req.body.SignUpPassword}
-        , function (err, small) {
-            if (err) console.log(err);
-        });
-        req.session.user = req.body.SignUpUsername;
+
+        // Check if username already exists
+        UsersModel.find({'username':req.body.SignUpUsername})
+            .then(function (users) {
+                console.log(Object.keys(users).length);
+                if(Object.keys(users).length > 0)
+                {
+                    res.render('index', { title: 'Express', userName: req.session.user, error: 'The username '+
+                    req.body.SignUpUsername+' already exists. Please enter a new username.'});
+                }
+                else
+                {
+                    console.log('Create user');
+                    UsersModel.create({ username: req.body.SignUpUsername, password:req.body.SignUpPassword});
+                    req.session.user = req.body.SignUpUsername;
+                    res.render('index', { title: 'Express', userName: req.session.user });
+
+                }
+            });
     }
-    res.render('index', { title: 'Express', userName: req.session.user });
 });
 
 router.post('/lend',function(req, res, next){

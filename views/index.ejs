@@ -14,16 +14,13 @@
 <body >
 <div class="container" style="width:100%;">
     <% include menu.ejs %>
-    <% if (typeof(error)==undefined)  { %>
-  <h1>Invalid</h1>
-    <% } else { %>
-  <h1>Valid</h1>
+
+    <%if (typeof(error) != 'undefined') { %>
+      <div class="alert alert-danger">
+        <strong>Error!</strong> <%= error %>
+      </div>
     <% } %>
-  <script>var books_image='/images/books.jpg';</script>
-  <script>var videogames_image='/images/games.jpg';</script>
-  <script>var appliance_image='/images/appliances.jpg';</script>
-  <script>var mobile_image='/images/mobile.jpg';</script>
-  <script>var book_icon='/images/book-icon.png'</script>
+
   <script type="text/babel" src='/javascripts/main_menu_components.js' ></script>
     <div id="test"></div>
 </div>

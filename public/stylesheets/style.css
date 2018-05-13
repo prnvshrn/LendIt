@@ -1,6 +1,6 @@
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-image: url("../images/wallpaper.jpg");
+  /*background-image: url("../images/wallpaper.jpg");*/
 }
 
 .background_orange{
@@ -8,7 +8,7 @@ body {
 }
 
 .background_blue{
-  background-color: lightgrey;
+  background-color: saddlebrown;
   color: black;
 
 }
