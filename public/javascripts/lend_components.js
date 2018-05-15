@@ -37,7 +37,7 @@ var LendForm = React.createClass({
                         <div className="col-sm-6">
                             <div className="form-group">
                                 <label htmlFor="available">Available From:</label>
-                                <input type="text" className="form-control" name="available" id="available"/>
+                                <input type="text" className="form-control" name="available" id="available" placeholder="MM/DD/YYY"/>
                             </div>
                         </div>
                     </div>

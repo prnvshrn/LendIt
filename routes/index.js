@@ -15,7 +15,8 @@ var LendSchema = new Schema({
     title: {type:String},
     category: String,
     available: String,
-    description: String
+    description: String,
+    username: String
 });
 var UsersSchema = new Schema({
     username: String,
@@ -77,7 +78,6 @@ router.post('/',function(req, res, next){
                 }
                 else
                 {
-                    console.log('Create user');
                     UsersModel.create({ username: req.body.SignUpUsername, password:req.body.SignUpPassword});
                     req.session.user = req.body.SignUpUsername;
                     res.render('index', { title: 'Express', userName: req.session.user });
@@ -89,18 +89,46 @@ router.post('/',function(req, res, next){
 
 router.post('/lend',function(req, res, next){
     var lend_data = req.body;
-    console.log("Available: ", lend_data.available);
     // Compile model from schema
     var LendModel = mongoose.model('lenditdb', LendSchema );
-    /*LendModel.create({ title: lend_data.title, category:lend_data.category,
-                    description:lend_data.description, available:lend_data.available}, function (err, small) {
+    if(typeof(req.session.user) == 'undefined')
+    {
+        res.render('lend', { title: 'Lend', userName: req.session.user, error:'You are not logged in. Please click' +
+            ' on the top right icon to do so.' });
+    }
+    else{
+    LendModel.create({ title: lend_data.title, category:lend_data.category,
+                    description:lend_data.description, available:lend_data.available, username:req.session.user},
+        function (err, small) {
         if (err) console.log(err);
-    });*/
+    });
     res.render('lend', { title: 'Lend', userName: req.session.user });
+    }
 });
 
 router.get('/lend', function(req, res, next) {
     res.render('lend', { title: 'Lend', userName: req.session.user  });
+});
+
+router.get('/borrow', function(req, res, next) {
+    var LendModel = mongoose.model('lenditdb', LendSchema );
+    LendModel.find()
+        .then(function (users) {
+            var temp = [];
+            for(var obj in users)
+            {
+                temp.push(
+                    {'title':users[obj].title,'category': users[obj].category,
+                'available': users[obj].available,
+                'description': users[obj].description,
+                'username': users[obj].username}
+                );
+                //temp.push(users[obj].category);
+            }
+            res.render('borrow', { title: 'Lend', userName: req.session.user, borrow:temp  });
+        });
+
+
 });
 
 
