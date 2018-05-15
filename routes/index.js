@@ -110,9 +110,14 @@ router.get('/lend', function(req, res, next) {
     res.render('lend', { title: 'Lend', userName: req.session.user  });
 });
 
-router.get('/borrow', function(req, res, next) {
+router.get('/borrow/:type/', function(req, res, next) {
     var LendModel = mongoose.model('lenditdb', LendSchema );
-    LendModel.find()
+    var category = {category:req.params.type};
+    if(req.params.type == 'all')
+    {
+        category = {};
+    }
+    LendModel.find(category)
         .then(function (users) {
             var temp = [];
             for(var obj in users)
@@ -123,7 +128,6 @@ router.get('/borrow', function(req, res, next) {
                 'description': users[obj].description,
                 'username': users[obj].username}
                 );
-                //temp.push(users[obj].category);
             }
             res.render('borrow', { title: 'Lend', userName: req.session.user, borrow:temp  });
         });

@@ -58,6 +58,7 @@ var BorrowLayout = React.createClass({
     render:function() {
         return(
             <div>
+
                 {this.state.comments.map(this.createPanel)}
             </div>
         );

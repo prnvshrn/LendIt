@@ -32,7 +32,11 @@ var HackPanels = React.createClass({
 })
 
 
-var Test = React.createClass({
+var MainLayout = React.createClass({
+    handleSearch: function(i) {
+        //window.location = '/borrow/'+i;
+        alert(i);
+    },
     render:function(){
         return(
             <div>
@@ -41,21 +45,21 @@ var Test = React.createClass({
                         <div className="panel panel-default animated bounceInLeft" style={greyBackground}>
                         <img src={videogame_icon} style={imageWidth}/>
                         <h2>Video Games</h2>
-                        <button className="btn btn-primary btn-lg" style={BackgroundNone}>Listings</button>
+                            <a href="/borrow/Video Games" className="btn btn-primary btn-lg" style={BackgroundNone}>Listings</a>
                         </div>
                     </div>
                     <div className="col-sm-4">
                         <div className="panel panel-default animated bounceInUp" style={beigeBackground}>
                             <img src={book_icon} style={imageWidth} />
                             <h2>Books</h2>
-                            <button className="btn btn-primary btn-lg" style={BackgroundNone}>Listings</button>
+                            <a href="/borrow/Books" className="btn btn-primary btn-lg" style={BackgroundNone}>Listings</a>
                         </div>
                     </div>
                     <div className="col-sm-4">
                         <div className="panel panel-default animated bounceInRight" style={greyBackground}>
                             <img src={phone_icon} style={imageWidth} />
                             <h2>Electronic Gadgets</h2>
-                            <button className="btn btn-primary btn-lg" style={BackgroundNone}>Listings</button>
+                            <a href="/borrow/Electronic Gadgets" className="btn btn-primary btn-lg" style={BackgroundNone}>Listings</a>
                         </div>
                     </div>
                 </div>
@@ -64,21 +68,21 @@ var Test = React.createClass({
                         <div className="panel panel-default animated bounceInLeft" style={beigeBackground}>
                             <img src={microwave_icon} style={imageWidth}/>
                             <h2>Home Applicances</h2>
-                            <button className="btn btn-primary btn-lg" style={BackgroundNone}>Listings</button>
+                            <a href="/borrow/Home Appliances" className="btn btn-primary btn-lg" style={BackgroundNone}>Listings</a>
                         </div>
                     </div>
                     <div className="col-sm-4">
                         <div className="panel panel-default animated bounceInDown" style={greyBackground}>
                             <img src={furniture_icon} style={imageWidth} />
                             <h2>Furnitures</h2>
-                            <button className="btn btn-primary btn-lg" style={BackgroundNone}>Listings</button>
+                            <a href="/borrow/Furnitures" className="btn btn-primary btn-lg" style={BackgroundNone}>Listings</a>
                         </div>
                     </div>
                     <div className="col-sm-4">
                         <div className="panel panel-default animated bounceInRight" style={beigeBackground}>
                             <img src={miscellaneous_icon} style={imageWidth} />
                             <h2>Miscellanous</h2>
-                            <button className="btn btn-primary btn-lg" style={BackgroundNone}>Listings</button>
+                            <a href="/borrow/Miscellaneous" className="btn btn-primary btn-lg" style={BackgroundNone}>Listings</a>
                         </div>
                     </div>
                 </div>
@@ -87,14 +91,4 @@ var Test = React.createClass({
     }
 })
 
-var CentralScreenLayout = React.createClass({
-    render : function() {
-        return(
-        <div>
-            <Test/>
-        </div>
-        );
-    }
-})
-
-ReactDOM.render(<Test/>,document.getElementById("test"));
+ReactDOM.render(<MainLayout/>,document.getElementById("test"));

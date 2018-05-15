@@ -24,6 +24,22 @@
     </div>
     <% } %>
 
+    <div class="form">
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <select class="form-control" id="category" name="category" onchange="location = this.value;">
+                <option></option>
+                <option value= '/borrow/all'>All</option>
+                <option value= '/borrow/Video Games'>Video Games</option>
+                <option value= '/borrow/Books'>Books</option>
+                <option value= '/borrow/Electronic Gadgets'>Electronic Gadgets</option>
+                <option value= '/borrow/Home Appliances'>Home Appliances</option>
+                <option value= '/borrow/Furnitures'>Furnitures</option>
+                <option value= '/borrow/Miscellaneous'>Miscellaneous</option>
+            </select>
+        </div>
+    </div>
+
     <div id="BorrowLayout"></div>
 </div>
 </body>
