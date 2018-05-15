@@ -38,12 +38,13 @@ var BorrowLayout = React.createClass({
         }
     },
     createPanel:function(text, i){
+        var URL = "/open/" + text.id;
         return(
             <BorrowPanel key={i} index={i}>
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-8">
-                            <h3>{text.title}</h3>
+                            <h3><a href={URL}>{text.title}</a></h3>
                         </div>
                         <div className="col-sm-2">
                             <p><span className="glyphicon glyphicon-user"></span> : {text.username}</p>

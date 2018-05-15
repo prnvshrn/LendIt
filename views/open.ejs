@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://fb.me/react-0.14.3.js"></script>
+    <script src="https://fb.me/react-dom-0.14.3.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script>open_details='<%- JSON.stringify(open) %>'</script>
+</head>
+<body >
+
+<div class="container" style="width:100%;">
+    <% include menu.ejs %>
+
+    <%if (typeof(error) != 'undefined') { %>
+    <div class="alert alert-danger">
+        <strong>Error!</strong> <%= error %>
+    </div>
+    <% } %>
+
+    <% open.forEach(function(o) { %>
+    <div class="panel panel-default animated bounceInRight">
+        <div class="panel-heading">
+            <h3>
+            <%= o.title %>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <form>
+                <div class="row">
+                    <div class="col-sm-8">
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <div id="description">
+                            <%= o.description %>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="available">Available From:</label>
+                            <div id="available">
+                                <%= o.available %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label for="category">Tagged under:</label>
+                            <div id="category">
+                                <%= o.category %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="username">Posted By:</label>
+                            <div id="username">
+                                <%= o.username %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <% }); %>
+
+</div>
+</body>
+</html>

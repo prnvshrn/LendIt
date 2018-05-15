@@ -123,7 +123,8 @@ router.get('/borrow/:type/', function(req, res, next) {
             for(var obj in users)
             {
                 temp.push(
-                    {'title':users[obj].title,'category': users[obj].category,
+                {
+                'id':users[obj].id,'title':users[obj].title,'category': users[obj].category,
                 'available': users[obj].available,
                 'description': users[obj].description,
                 'username': users[obj].username}
@@ -135,5 +136,24 @@ router.get('/borrow/:type/', function(req, res, next) {
 
 });
 
+router.get('/open/:id', function(req, res, next){
+    var LendModel = mongoose.model('lenditdb', LendSchema );
+    LendModel.find({_id:req.params.id})
+        .then(function (users) {
+            var temp = [];
+            for(var obj in users)
+            {
+                temp.push(
+                    {
+                        'id':users[obj].id,'title':users[obj].title,'category': users[obj].category,
+                        'available': users[obj].available,
+                        'description': users[obj].description,
+                        'username': users[obj].username}
+                );
+            }
+            res.render('open', { title: 'Lend', userName: req.session.user, open:temp  });
+        });
+
+});
 
 module.exports = router;
