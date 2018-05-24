@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-
+var graphqlHTTP = require('express-graphql');
+var schema = require('./schema.js');
 
 var mongoose = require('mongoose');
 var mongoDB = 'mongodb://admin2:admin2@ds237989.mlab.com:37989/lenditdb';
@@ -22,6 +23,12 @@ var UsersSchema = new Schema({
     username: String,
     password: String
 })
+
+router.use('/graphql', graphqlHTTP({
+    schema: schema,
+    debug: true,
+    graphiql: true
+}))
 
 router.get('/flash', function(req, res){
     // Set a flash message by passing the key, followed by the value, to req.flash().
