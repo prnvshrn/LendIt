@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var graphqlHTTP = require('express-graphql');
 var schema = require('./schema.js');
-
 var mongoose = require('mongoose');
 var mongoDB = 'mongodb://admin2:admin2@ds237989.mlab.com:37989/lenditdb';
 mongoose.connect(mongoDB);
@@ -23,6 +22,7 @@ var UsersSchema = new Schema({
     username: String,
     password: String
 })
+
 
 router.use('/graphql', graphqlHTTP({
     schema: schema,
@@ -97,7 +97,7 @@ router.post('/',function(req, res, next){
 router.post('/lend',function(req, res, next){
     var lend_data = req.body;
     // Compile model from schema
-    var LendModel = mongoose.model('lenditdb', LendSchema );
+    var LendModel = mongoose.model('lenditdb', LendSchema);
     if(typeof(req.session.user) == 'undefined')
     {
         res.render('lend', { title: 'Lend', userName: req.session.user, error:'You are not logged in. Please click' +

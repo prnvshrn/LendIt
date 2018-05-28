@@ -1,3 +1,19 @@
+var mongoose = require('mongoose');
+var mongoDB = 'mongodb://admin2:admin2@ds237989.mlab.com:37989/lenditdb';
+mongoose.connect(mongoDB);
+mongoose.Promise = global.Promise;
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+var Schema = mongoose.Schema;
+var LendSchema = new Schema({
+    title: {type:String},
+    category: String,
+    available: String,
+    description: String,
+    username: String
+});
+var LendModel = mongoose.model('lenditdb', LendSchema);
+
 const{
     GraphQLObjectType,
     GraphQLString,
@@ -7,40 +23,45 @@ const{
     GraphQLNonNull
 } = require('graphql');
 
-const customers = [
-    {id:'1', name:'John Doe', email:'jdoe@gmail.com', age:35},
-    {id:'2', name:'Steve Smith', email:'steve@gmail.com', age:25},
-    {id:'3', name:'Sara Williams', email:'sara@gmail.com', age:32},
-];
-
 const CustomerType = new GraphQLObjectType({
     name:'Customer',
     fields:() => ({
-        id: {type:GraphQLString},
         name: {type: GraphQLString},
-        email: {type: GraphQLString},
-        age: {type: GraphQLInt},
     })
 });
 
+const LendDBData = new GraphQLObjectType({
+    name:'Mongo',
+    fields:() => ({
+        category:{type:GraphQLString}
+    })
+})
 
 const RootQuery= new GraphQLObjectType({
     name:'RootQueryType',
     fields:{
-        customer:{
+        lend:{
             type:CustomerType,
             args:{
-                id:{type:GraphQLString}
+                name:{type:GraphQLString}
             },
             resolve(parentValue, args){
-
                 for(let i = 0;i < customers.length;i++){
-                    if(customers[i].id == args.id){
+                    if(customers[i].name == args.name){
                         return customers[i];
                     }
                 }
-
-
+            }
+        },
+        mongo:{
+            type: new GraphQLList(LendDBData),
+            resolve(parentValue, args){
+                var foundItems = new Promise((resolve, reject) => {
+                    LendModel.find({'category':'Books'},(err, todos) => {
+                        err ? reject(err) : resolve(todos)
+                    })
+                })
+                return foundItems
             }
         }
     }
