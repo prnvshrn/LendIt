@@ -4,15 +4,7 @@ mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-var Schema = mongoose.Schema;
-var LendSchema = new Schema({
-    title: {type:String},
-    category: String,
-    available: String,
-    description: String,
-    username: String
-});
-var LendModel = mongoose.model('lenditdb', LendSchema);
+Lend = require('../models/lendModel');
 
 const{
     GraphQLObjectType,
@@ -31,9 +23,10 @@ const CustomerType = new GraphQLObjectType({
 });
 
 const LendDBData = new GraphQLObjectType({
-    name:'Mongo',
+    name:'Lend',
     fields:() => ({
-        category:{type:GraphQLString}
+        category:{type:GraphQLString},
+        description:{type: GraphQLString}
     })
 })
 
@@ -53,11 +46,11 @@ const RootQuery= new GraphQLObjectType({
                 }
             }
         },
-        mongo:{
+        lend:{
             type: new GraphQLList(LendDBData),
             resolve(parentValue, args){
                 var foundItems = new Promise((resolve, reject) => {
-                    LendModel.find({'category':'Books'},(err, todos) => {
+                    Lend.find({},(err, todos) => {
                         err ? reject(err) : resolve(todos)
                     })
                 })

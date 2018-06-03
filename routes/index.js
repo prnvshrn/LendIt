@@ -8,6 +8,7 @@ mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+Lend = require('../models/lendModel');
 
 //Define a schema
 var Schema = mongoose.Schema;
@@ -21,7 +22,7 @@ var LendSchema = new Schema({
 var UsersSchema = new Schema({
     username: String,
     password: String
-})
+});
 
 
 router.use('/graphql', graphqlHTTP({
@@ -118,13 +119,12 @@ router.get('/lend', function(req, res, next) {
 });
 
 router.get('/borrow/:type/', function(req, res, next) {
-    var LendModel = mongoose.model('lenditdb', LendSchema );
     var category = {category:req.params.type};
     if(req.params.type == 'all')
     {
         category = {};
     }
-    LendModel.find(category)
+    Lend.find(category)
         .then(function (users) {
             var temp = [];
             for(var obj in users)
@@ -144,8 +144,7 @@ router.get('/borrow/:type/', function(req, res, next) {
 });
 
 router.get('/open/:id', function(req, res, next){
-    var LendModel = mongoose.model('lenditdb', LendSchema );
-    LendModel.find({_id:req.params.id})
+    Lend.find({_id:req.params.id})
         .then(function (users) {
             var temp = [];
             for(var obj in users)
