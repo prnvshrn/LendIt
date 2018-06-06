@@ -11,7 +11,34 @@ var HackPanels = React.createClass({
 })
 
 var LendForm = React.createClass({
+    getInitialState:function(){
+        return{
+            file: '',imagePreviewUrl: ''
+        }
+    },
+    _handleImageChange:function(e) {
+        e.preventDefault();
+
+        let reader = new FileReader();
+        let file = e.target.files[0];
+
+        reader.onloadend = () => {
+            console.log('There');
+            this.setState({
+                file: file,
+                imagePreviewUrl: reader.result
+            });
+        }
+        reader.readAsDataURL(file)
+        },
     render:function(){
+        let {imagePreviewUrl} = this.state;
+        let $imagePreview = null;
+        if (imagePreviewUrl) {
+            $imagePreview = (<img src={imagePreviewUrl} />);
+        } else {
+            $imagePreview = (<div className="previewText">Please select an Image for Preview</div>);
+        }
         return(
             <div className="container animated bounce" style={greyBackground}>
                 <form action="/lend" method="post">
@@ -46,6 +73,7 @@ var LendForm = React.createClass({
                         <label htmlFor="comment">Description:</label>
                         <textarea className="form-control" rows="3" id="description" name="description"></textarea>
                     </div>
+
                     <button type="submit" className="btn btn-success btn-lg">Save</button>
                 </form>
             </div>

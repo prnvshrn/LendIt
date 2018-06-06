@@ -41,7 +41,7 @@ router.get('/flash', function(req, res){
 router.get('/', function(req, res, next) {
   if(req.session.user){console.log('Logged in');}
   else{console.log('Quit');}
-  res.render('index', { title: 'Express', userName: req.session.user});
+  res.render('index', { title: 'LendIt - Online portal for lending and borrowing', userName: req.session.user});
 });
 
 router.post('/',function(req, res, next){
@@ -52,7 +52,7 @@ router.post('/',function(req, res, next){
             .then(function (users) {
                 if(Object.keys(users).length == 0)
                 {
-                    res.render('index', { title: 'Express', userName: req.session.user, error: 'The username '+
+                    res.render('index', { title: 'LendIt - Online portal for lending and borrowing', userName: req.session.user, error: 'The username '+
                         req.body.LoginUsername+' does not exists. Please sign up with it first.'});
                 }
             for(var obj in users)
@@ -60,11 +60,11 @@ router.post('/',function(req, res, next){
                 if(users[obj].password == req.body.LoginPassword)
                 {
                     req.session.user = req.body.LoginUsername;
-                    res.render('index', { title: 'Express', userName: req.session.user});
+                    res.render('index', { title: 'LendIt - Online portal for lending and borrowing', userName: req.session.user});
                 }
                 else
                 {
-                    res.render('index', { title: 'Express', userName: req.session.user, error:'Username / Password is ' +
+                    res.render('index', { title: 'LendIt - Online portal for lending and borrowing', userName: req.session.user, error:'Username / Password is ' +
                         'invalid. Please enter again' });
                 }
             }
@@ -81,14 +81,14 @@ router.post('/',function(req, res, next){
                 console.log(Object.keys(users).length);
                 if(Object.keys(users).length > 0)
                 {
-                    res.render('index', { title: 'Express', userName: req.session.user, error: 'The username '+
+                    res.render('index', { title: 'LendIt - Online portal for lending and borrowing', userName: req.session.user, error: 'The username '+
                     req.body.SignUpUsername+' already exists. Please enter a new username.'});
                 }
                 else
                 {
                     UsersModel.create({ username: req.body.SignUpUsername, password:req.body.SignUpPassword});
                     req.session.user = req.body.SignUpUsername;
-                    res.render('index', { title: 'Express', userName: req.session.user });
+                    res.render('index', { title: 'LendIt - Online portal for lending and borrowing', userName: req.session.user });
 
                 }
             });
@@ -97,15 +97,13 @@ router.post('/',function(req, res, next){
 
 router.post('/lend',function(req, res, next){
     var lend_data = req.body;
-    // Compile model from schema
-    var LendModel = mongoose.model('lenditdb', LendSchema);
     if(typeof(req.session.user) == 'undefined')
     {
         res.render('lend', { title: 'Lend', userName: req.session.user, error:'You are not logged in. Please click' +
             ' on the top right icon to do so.' });
     }
     else{
-    LendModel.create({ title: lend_data.title, category:lend_data.category,
+    Lend.create({ title: lend_data.title, category:lend_data.category,
                     description:lend_data.description, available:lend_data.available, username:req.session.user},
         function (err, small) {
         if (err) console.log(err);
